@@ -8,6 +8,9 @@ import { CALC_ACTIONS } from './CONSTANTS';
 
 import './styles/App.css';
 
+// TODO: implement this
+// const evaluate = (state) => {};
+
 function reducer(state, { type, payload }) {
   switch (type) {
     //To add digits
@@ -25,6 +28,33 @@ function reducer(state, { type, payload }) {
         currentOperand: `${state.currentOperand ?? ''}${payload.digit}`,
       };
 
+    //To add operator
+    case CALC_ACTIONS.ADD_OPERATOR:
+      if (state.currentOperand === '' && state.previousOperand === '') {
+        return state;
+      }
+      if (state.currentOperand === '') {
+        return {
+          ...state,
+          operator: payload.operator,
+        };
+      }
+      if (state.previousOperand === '') {
+        return {
+          ...state,
+          operator: payload.operator,
+          previousOperand: state.currentOperand,
+          currentOperand: '',
+        };
+      }
+      return {
+        ...state,
+        operator: payload.operator,
+        // TODO: calculate expression
+        // previousOperand: evaluate(state),
+        currentOperand: '',
+      };
+
     // To clear everything
     case CALC_ACTIONS.CLEAR:
       return {};
@@ -38,7 +68,10 @@ function reducer(state, { type, payload }) {
   }
 }
 const App = () => {
-  const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, { currentOperand: '' });
+  const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, {
+    currentOperand: '',
+    previousOperand: '',
+  });
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-8 p-8">
       <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-cyan-300 p-6">
