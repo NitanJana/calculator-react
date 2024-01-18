@@ -11,6 +11,7 @@ import './styles/App.css';
 const calculate = ({ currentOperand, previousOperand, operator }) => {
   let previous = parseFloat(previousOperand);
   let current = parseFloat(currentOperand);
+  if (isNaN(previous) || isNaN(current)) return '';
   let result = '';
   switch (operator) {
     case '+':
@@ -56,6 +57,11 @@ function reducer(state, { type, payload }) {
 
     //To add operator
     case CALC_ACTIONS.ADD_OPERATOR:
+      // No calculation if last digit is decimal point
+      if (state.currentOperand.slice(-1) === '.')
+        return {
+          ...state,
+        };
       if (state.currentOperand === '' && state.previousOperand === '') {
         return state;
       }
@@ -104,6 +110,14 @@ function reducer(state, { type, payload }) {
 
     // To calculate using equal button
     case CALC_ACTIONS.EVALUATE:
+      if (
+        state.previousOperand === '' ||
+        state.currentOperand === '' ||
+        state.operator === '' ||
+        // No calculation if last digit is decimal point
+        state.currentOperand.slice(-1) === '.'
+      )
+        return state;
       return {
         ...state,
         overwrite: true,
