@@ -1,34 +1,58 @@
+import { useReducer } from 'react';
 import DigitButton from './components/DigitButton';
-import OperationButton from './components/OperationButton';
+import OperatorButton from './components/OperatorButton';
 import UtilityButton from './components/UtilityButton';
 import Footer from './components/Footer';
+
+import { CALC_ACTIONS } from './CONSTANTS';
+
 import './styles/App.css';
 
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case CALC_ACTIONS.ADD_DIGIT:
+      // Multiple leading zeroes not allowed
+      if (payload.digit === '0' && state.currentOperand === '0') {
+        return state;
+      }
+      // Multiple decimal points not allowed
+      if (payload.digit === '.' && state.currentOperand.includes('.')) {
+        return state;
+      }
+      return {
+        ...state,
+        currentOperand: `${state.currentOperand ?? ''}${payload.digit}`,
+      };
+  }
+}
 const App = () => {
+  const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, {currentOperand:''});
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-8 p-8">
       <main className="grid grid-cols-[repeat(4,minmax(auto,6rem))] grid-rows-[minmax(6rem,auto)_repeat(5,minmax(auto,4rem))] gap-x-4 gap-y-6 rounded-xl bg-cyan-300 p-6">
         <div className="flex flex-col items-end justify-around col-span-4 gap-4 p-4 rounded-xl bg-cyan-100">
-          <div className="text-lg font-medium text-teal-900 break-all">123 *</div>
-          <div className="text-3xl font-medium text-teal-900 break-all">45645634538776456</div>
+          <div className="text-lg font-medium text-teal-900 break-all">
+            {previousOperand} {operator}
+          </div>
+          <div className="text-3xl font-medium text-teal-900 break-all">{currentOperand}</div>
         </div>
         <UtilityButton utility="DELETE" />
         <UtilityButton utility="CLEAR" />
-        <OperationButton operation="÷" />
-        <DigitButton digit="7" />
-        <DigitButton digit="8" />
-        <DigitButton digit="9" />
-        <OperationButton operation="*" />
-        <DigitButton digit="4" />
-        <DigitButton digit="5" />
-        <DigitButton digit="6" />
-        <OperationButton operation="-" />
-        <DigitButton digit="1" />
-        <DigitButton digit="2" />
-        <DigitButton digit="3" />
-        <OperationButton operation="+" />
-        <DigitButton digit="." />
-        <DigitButton digit="0" />
+        <OperatorButton operator="÷" dispatch={dispatch} />
+        <DigitButton digit="7" dispatch={dispatch} />
+        <DigitButton digit="8" dispatch={dispatch} />
+        <DigitButton digit="9" dispatch={dispatch} />
+        <OperatorButton operator="*" dispatch={dispatch} />
+        <DigitButton digit="4" dispatch={dispatch} />
+        <DigitButton digit="5" dispatch={dispatch} />
+        <DigitButton digit="6" dispatch={dispatch} />
+        <OperatorButton operator="-" dispatch={dispatch} />
+        <DigitButton digit="1" dispatch={dispatch} />
+        <DigitButton digit="2" dispatch={dispatch} />
+        <DigitButton digit="3" dispatch={dispatch} />
+        <OperatorButton operator="+" dispatch={dispatch} />
+        <DigitButton digit="." dispatch={dispatch} />
+        <DigitButton digit="0" dispatch={dispatch} />
         <button className="text-lg text-teal-900 rounded-full bg-cyan-100">=</button>
       </main>
       <Footer />
