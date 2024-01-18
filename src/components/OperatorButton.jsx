@@ -4,7 +4,7 @@ import { CALC_ACTIONS } from '../CONSTANTS';
 const OperatorButton = ({ operator, dispatch }) => {
   return (
     <button
-      className="rounded-full bg-cyan-100 text-lg text-teal-900"
+      className="rounded-full bg-teal-100 text-lg text-teal-900"
       onClick={() => dispatch({ type: CALC_ACTIONS.ADD_OPERATOR, payload: { operator } })}
     >
       {operator}

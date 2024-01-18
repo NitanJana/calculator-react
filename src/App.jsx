@@ -133,9 +133,9 @@ const App = () => {
     previousOperand: '',
   });
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-8 p-8">
-      <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-cyan-300 p-6">
-        <div className="col-span-4 flex flex-col items-end justify-around gap-4 rounded-xl bg-cyan-100 p-4">
+    <div className="flex h-screen flex-col items-center justify-center gap-8  p-8">
+      <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-gradient-to-br from-teal-200 to-teal-300 p-6 shadow-2xl">
+        <div className="col-span-4 flex flex-col items-end justify-around gap-4 rounded-xl bg-teal-100 p-4">
           <div className="break-all text-lg font-medium text-teal-900">
             {previousOperand} {operator}
           </div>
@@ -159,7 +159,7 @@ const App = () => {
         <DigitButton digit="." dispatch={dispatch} />
         <DigitButton digit="0" dispatch={dispatch} />
         <button
-          className="rounded-full bg-cyan-100 text-lg text-teal-900"
+          className="rounded-full bg-teal-100 text-lg text-teal-900"
           onClick={() => {
             dispatch({ type: CALC_ACTIONS.EVALUATE });
           }}
