@@ -85,6 +85,15 @@ function reducer(state, { type, payload }) {
         ...state,
         currentOperand: state.currentOperand.slice(0, -1),
       };
+
+    // To calculate using equal button
+    case CALC_ACTIONS.EVALUATE:
+      return {
+        ...state,
+        currentOperand: calculate(state),
+        operator: '',
+        previousOperand: '',
+      };
   }
 }
 const App = () => {
@@ -93,13 +102,13 @@ const App = () => {
     previousOperand: '',
   });
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-8 p-8">
+    <div className="flex h-screen flex-col items-center justify-center gap-8 p-8">
       <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-cyan-300 p-6">
-        <div className="flex flex-col items-end justify-around col-span-4 gap-4 p-4 rounded-xl bg-cyan-100">
-          <div className="text-lg font-medium text-teal-900 break-all">
+        <div className="col-span-4 flex flex-col items-end justify-around gap-4 rounded-xl bg-cyan-100 p-4">
+          <div className="break-all text-lg font-medium text-teal-900">
             {previousOperand} {operator}
           </div>
-          <div className="text-3xl font-medium text-teal-900 break-all">{currentOperand}</div>
+          <div className="break-all text-3xl font-medium text-teal-900">{currentOperand}</div>
         </div>
         <UtilityButton utility="CLEAR" dispatch={dispatch} />
         <UtilityButton utility="DELETE" dispatch={dispatch} />
@@ -118,7 +127,14 @@ const App = () => {
         <OperatorButton operator="+" dispatch={dispatch} />
         <DigitButton digit="." dispatch={dispatch} />
         <DigitButton digit="0" dispatch={dispatch} />
-        <button className="text-lg text-teal-900 rounded-full bg-cyan-100">=</button>
+        <button
+          className="rounded-full bg-cyan-100 text-lg text-teal-900"
+          onClick={() => {
+            dispatch({ type: CALC_ACTIONS.EVALUATE });
+          }}
+        >
+          =
+        </button>
       </main>
       <Footer />
     </div>

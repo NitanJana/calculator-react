@@ -3,4 +3,5 @@ export const CALC_ACTIONS = {
   ADD_OPERATOR: 'add-operator',
   CLEAR: 'clear',
   DELETE: 'delete',
+  EVALUATE: 'evaluate',
 };
