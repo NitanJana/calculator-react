@@ -8,8 +8,26 @@ import { CALC_ACTIONS } from './CONSTANTS';
 
 import './styles/App.css';
 
-// TODO: implement this
-// const evaluate = (state) => {};
+const calculate = ({ currentOperand, previousOperand, operator }) => {
+  let previous = parseFloat(previousOperand);
+  let current = parseFloat(currentOperand);
+  let result = '';
+  switch (operator) {
+    case '+':
+      result = previous + current;
+      break;
+    case '-':
+      result = previous - current;
+      break;
+    case '*':
+      result = previous * current;
+      break;
+    case '÷':
+      result = previous / current;
+      break;
+  }
+  return result.toString();
+};
 
 function reducer(state, { type, payload }) {
   switch (type) {
@@ -25,21 +43,21 @@ function reducer(state, { type, payload }) {
       }
       return {
         ...state,
-        currentOperand: `${state.currentOperand ?? ''}${payload.digit}`,
+        currentOperand: `${state.currentOperand || ''}${payload.digit}`,
       };
 
     //To add operator
     case CALC_ACTIONS.ADD_OPERATOR:
-      if (state.currentOperand === '' && state.previousOperand === '') {
+      if (state.currentOperand == '' && state.previousOperand == '') {
         return state;
       }
-      if (state.currentOperand === '') {
+      if (state.currentOperand == '') {
         return {
           ...state,
           operator: payload.operator,
         };
       }
-      if (state.previousOperand === '') {
+      if (state.previousOperand == '') {
         return {
           ...state,
           operator: payload.operator,
@@ -49,15 +67,17 @@ function reducer(state, { type, payload }) {
       }
       return {
         ...state,
+        previousOperand: calculate(state),
         operator: payload.operator,
-        // TODO: calculate expression
-        // previousOperand: evaluate(state),
         currentOperand: '',
       };
 
     // To clear everything
     case CALC_ACTIONS.CLEAR:
-      return {};
+      return {
+        currentOperand: '',
+        previousOperand: '',
+      };
 
     // To delete last digit
     case CALC_ACTIONS.DELETE:
