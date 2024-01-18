@@ -1,4 +1,4 @@
-function Footer() {
+const Footer = () => {
   return (
     <footer className="flex items-center gap-2 font-medium text-teal-600">
       Copyright &copy; {new Date().getFullYear()} Nitan Jana
@@ -7,6 +7,6 @@ function Footer() {
       </a>
     </footer>
   );
-}
+};
 
 export default Footer;
