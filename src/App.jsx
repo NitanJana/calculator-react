@@ -10,6 +10,7 @@ import './styles/App.css';
 
 function reducer(state, { type, payload }) {
   switch (type) {
+    //To add digits
     case CALC_ACTIONS.ADD_DIGIT:
       // Multiple leading zeroes not allowed
       if (payload.digit === '0' && state.currentOperand === '0') {
@@ -23,10 +24,21 @@ function reducer(state, { type, payload }) {
         ...state,
         currentOperand: `${state.currentOperand ?? ''}${payload.digit}`,
       };
+
+    // To clear everything
+    case CALC_ACTIONS.CLEAR:
+      return {};
+
+    // To delete last digit
+    case CALC_ACTIONS.DELETE:
+      return {
+        ...state,
+        currentOperand: state.currentOperand.slice(0, -1),
+      };
   }
 }
 const App = () => {
-  const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, {currentOperand:''});
+  const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, { currentOperand: '' });
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-8 p-8">
       <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-cyan-300 p-6">
@@ -36,8 +48,8 @@ const App = () => {
           </div>
           <div className="text-3xl font-medium text-teal-900 break-all">{currentOperand}</div>
         </div>
-        <UtilityButton utility="CLEAR" />
-        <UtilityButton utility="DELETE" />
+        <UtilityButton utility="CLEAR" dispatch={dispatch} />
+        <UtilityButton utility="DELETE" dispatch={dispatch} />
         <OperatorButton operator="÷" dispatch={dispatch} />
         <DigitButton digit="7" dispatch={dispatch} />
         <DigitButton digit="8" dispatch={dispatch} />
