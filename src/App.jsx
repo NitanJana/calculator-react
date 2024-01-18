@@ -33,6 +33,14 @@ function reducer(state, { type, payload }) {
   switch (type) {
     //To add digits
     case CALC_ACTIONS.ADD_DIGIT:
+      // Adding digit after using equal button
+      if (state.overwrite === true) {
+        return {
+          ...state,
+          overwrite: false,
+          currentOperand: payload.digit,
+        };
+      }
       // Multiple leading zeroes not allowed
       if (payload.digit === '0' && state.currentOperand === '0') {
         return state;
@@ -48,16 +56,16 @@ function reducer(state, { type, payload }) {
 
     //To add operator
     case CALC_ACTIONS.ADD_OPERATOR:
-      if (state.currentOperand == '' && state.previousOperand == '') {
+      if (state.currentOperand === '' && state.previousOperand === '') {
         return state;
       }
-      if (state.currentOperand == '') {
+      if (state.currentOperand === '') {
         return {
           ...state,
           operator: payload.operator,
         };
       }
-      if (state.previousOperand == '') {
+      if (state.previousOperand === '') {
         return {
           ...state,
           operator: payload.operator,
@@ -90,6 +98,7 @@ function reducer(state, { type, payload }) {
     case CALC_ACTIONS.EVALUATE:
       return {
         ...state,
+        overwrite: true,
         currentOperand: calculate(state),
         operator: '',
         previousOperand: '',
