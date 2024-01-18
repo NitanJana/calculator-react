@@ -29,7 +29,7 @@ const App = () => {
   const [{ currentOperand, previousOperand, operator }, dispatch] = useReducer(reducer, {currentOperand:''});
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-8 p-8">
-      <main className="grid grid-cols-[repeat(4,minmax(auto,6rem))] grid-rows-[minmax(6rem,auto)_repeat(5,minmax(auto,4rem))] gap-x-4 gap-y-6 rounded-xl bg-cyan-300 p-6">
+      <main className="grid grid-cols-[repeat(4,minmax(auto,5rem))] grid-rows-[minmax(8rem,auto)_repeat(5,minmax(auto,3.5rem))] gap-x-2  gap-y-5 rounded-xl bg-cyan-300 p-6">
         <div className="flex flex-col items-end justify-around col-span-4 gap-4 p-4 rounded-xl bg-cyan-100">
           <div className="text-lg font-medium text-teal-900 break-all">
             {previousOperand} {operator}
