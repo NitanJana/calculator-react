@@ -89,6 +89,14 @@ function reducer(state, { type, payload }) {
 
     // To delete last digit
     case CALC_ACTIONS.DELETE:
+      // If deleting after using equal button
+      if (state.overwrite === true) {
+        return {
+          ...state,
+          overwrite: false,
+          currentOperand: '',
+        };
+      }
       return {
         ...state,
         currentOperand: state.currentOperand.slice(0, -1),
