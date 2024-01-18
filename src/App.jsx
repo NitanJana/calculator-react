@@ -36,8 +36,8 @@ const App = () => {
           </div>
           <div className="text-3xl font-medium text-teal-900 break-all">{currentOperand}</div>
         </div>
-        <UtilityButton utility="DELETE" />
         <UtilityButton utility="CLEAR" />
+        <UtilityButton utility="DELETE" />
         <OperatorButton operator="÷" dispatch={dispatch} />
         <DigitButton digit="7" dispatch={dispatch} />
         <DigitButton digit="8" dispatch={dispatch} />
